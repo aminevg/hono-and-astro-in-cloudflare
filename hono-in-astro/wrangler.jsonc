@@ -1,0 +1,21 @@
+{
+	"name": "hono-in-astro",
+	"main": "./dist/_worker.js/index.js",
+	"compatibility_date": "2025-08-28",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "hono_in_astro_demo_database",
+			"database_name": "hono-in-astro-demo-database",
+			"database_id": "79e2c69c-fd09-4faf-8d96-194044f8d410"
+		}
+	]
+}

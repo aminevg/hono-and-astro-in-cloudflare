@@ -1,0 +1,43 @@
+---
+import { serverClient } from "../api/[...path]";
+
+const { id } = Astro.params;
+if (!id) {
+  return new Response(null, { status: 404 });
+}
+
+const client = serverClient(Astro);
+
+const response = await client.api.customers[":id"].$get({
+  param: {
+    id,
+  },
+});
+const result = await response.json();
+
+if ('err' in result) {
+  return new Response(result.err, { status: 500 });
+}
+if (result.results.length === 0) {
+  return new Response(null, { status: 404 });
+}
+
+const row = result.results[0];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <ul>
+      {Object.entries(row).map(([key, value]) => (
+        <li>{key}: {value}</li>
+      ))}
+    </ul>
+  </body>
+</html>
