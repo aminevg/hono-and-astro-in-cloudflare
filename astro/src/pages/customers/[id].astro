@@ -1,0 +1,32 @@
+---
+const { id } = Astro.params;
+
+const { astro_demo_database } = Astro.locals.runtime.env;
+
+const { results } = await astro_demo_database.prepare(
+  "SELECT * FROM customers WHERE CustomerId = ?",
+)
+  .bind(id)
+  .run();
+if (results.length === 0) {
+  return new Response(null, { status: 404 });
+}
+const row = results[0];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <ul>
+      {Object.entries(row).map(([key, value]) => (
+        <li>{key}: {value}</li>
+      ))}
+    </ul>
+  </body>
+</html>

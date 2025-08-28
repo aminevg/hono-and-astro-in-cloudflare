@@ -1,0 +1,19 @@
+{
+  "name": "astro",
+  "main": "./dist/_worker.js/index.js",
+  "compatibility_date": "2025-08-28",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "astro_demo_database",
+      "database_name": "astro-demo-database",
+      "database_id": "12338b71-85a5-4eb6-a6f5-d13656c5a28e"
+    }
+  ]
+}
