@@ -1,0 +1,55 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <div x-data="customers">
+      <input type="text" x-on:input.debounce="fetchData" />
+      <template x-if="customerData">
+        <ul>
+          <template x-for="(value, key) in customerData">
+            <li>
+              <span x-text="key"></span>: <span x-text="value"></span>
+            </li>
+          </template>
+        </ul>
+      </template>
+      <template x-if="!customerData">
+        <p>No customer data found</p>
+      </template>
+    </div>
+
+    <script>
+      import { hc } from "hono/client";
+      import type { HonoApp } from "./api/[...path]";
+
+      document.addEventListener("alpine:init", () => {
+        const client = hc<HonoApp>(window.location.origin);
+
+        window.Alpine.data("customers", () => ({
+          customerData: null as Record<string, unknown> | null,
+
+          async fetchData(e: InputEvent) {
+            const id = (e.target as HTMLInputElement).value;
+            if (!id) {
+              this.customerData = null;
+              return;
+            }
+
+            const res = await client.api.customers[":id"].$get({
+              param: {
+                id,
+              },
+            });
+            const result = await res.json();
+            this.customerData = result.results[0];
+          },
+        }));
+      });
+    </script>
+  </body>
+</html>

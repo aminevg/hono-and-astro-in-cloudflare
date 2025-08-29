@@ -14,14 +14,6 @@ const response = await client.api.customers[":id"].$get({
   },
 });
 const result = await response.json();
-
-if ('err' in result) {
-  return new Response(result.err, { status: 500 });
-}
-if (result.results.length === 0) {
-  return new Response(null, { status: 404 });
-}
-
 const row = result.results[0];
 ---
 
@@ -34,10 +26,18 @@ const row = result.results[0];
     <title>Astro</title>
   </head>
   <body>
-    <ul>
-      {Object.entries(row).map(([key, value]) => (
-        <li>{key}: {value}</li>
-      ))}
-    </ul>
+    {
+      row ? (
+        <ul>
+          {Object.entries(row).map(([key, value]) => (
+            <li>
+              {key}: {value}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No customer data found</p>
+      )
+    }
   </body>
 </html>
