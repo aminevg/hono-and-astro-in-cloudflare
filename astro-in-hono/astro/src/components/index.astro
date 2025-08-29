@@ -1,0 +1,32 @@
+---
+interface Props {
+  result: Record<string, unknown> | undefined;
+}
+
+const { result } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    {
+      result ? (
+        <ul>
+          {Object.entries(result).map(([key, value]) => (
+            <li>
+              {key}: {value}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No customer data found</p>
+      )
+    }
+  </body>
+</html>
