@@ -13,15 +13,6 @@ delete import.meta.url;
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.get("/query/customers/:id", async (c) => {
-  const userId = c.req.param("id");
-  let { results } = await c.env.astro_in_hono_demo_database
-    .prepare("SELECT * FROM customers WHERE CustomerId = ?")
-    .bind(userId)
-    .run();
-  return c.json(results);
-});
-
 app.get("/customers/:id", async (c) => {
   const userId = c.req.param("id");
   let { results } = await c.env.astro_in_hono_demo_database
