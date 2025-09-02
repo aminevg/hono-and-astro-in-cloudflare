@@ -14,7 +14,7 @@ const app = new Hono<{ Bindings: Bindings }>()
       .prepare("SELECT * FROM customers WHERE CustomerId = ?")
       .bind(userId)
       .run();
-    return c.json({ results });
+    return c.json(results);
   });
 
 export const ALL: APIRoute = ({ request, locals }) =>
